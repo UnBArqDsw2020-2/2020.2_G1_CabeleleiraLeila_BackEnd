@@ -3,22 +3,24 @@ package br.unb.leilas.api.domain.entities;
 import java.time.LocalDate;
 
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-// import javax.persistence.Transient;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 
-// import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import br.unb.leilas.api.domain.entities.base.BaseEntity;
+
 
 @Entity
-@Table(name = "pessoa")
-public class Pessoa {
+@Inheritance(strategy =  InheritanceType.JOINED)
+@DiscriminatorColumn(name = "tipo", length = 2, discriminatorType = DiscriminatorType.STRING)
+@DiscriminatorValue("P")
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+public class Pessoa extends BaseEntity {
+
     private String nome;
     private LocalDate nascimento;
     private String telefone;
@@ -26,18 +28,13 @@ public class Pessoa {
     private String rgEmissor;
     @Column(unique = true)
     private String cpf;
+
+    @Column(insertable=false, updatable=false)
+    private String tipo;
     // @Transient ignora ao salvar e é retornado nas requisições
 
     // @JsonIgnore ignora ao ser passado como json nas requisições mas permite
     // persistir
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getNome() {
         return nome;
@@ -85,6 +82,14 @@ public class Pessoa {
 
     public void setCpf(String cpf) {
         this.cpf = cpf;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 
 }
