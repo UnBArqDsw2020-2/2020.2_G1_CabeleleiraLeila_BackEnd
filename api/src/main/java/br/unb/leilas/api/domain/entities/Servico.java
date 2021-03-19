@@ -1,8 +1,17 @@
 package br.unb.leilas.api.domain.entities;
 import java.util.ArrayList;
 
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+
 import antlr.collections.List;
 import br.unb.leilas.api.domain.entities.base.BaseEntity;
+
+@Entity
+@Inheritance(strategy =  InheritanceType.JOINED)
+@DiscriminatorValue(value = "S")
 
 public class Servico extends BaseEntity{
   private String nome;
