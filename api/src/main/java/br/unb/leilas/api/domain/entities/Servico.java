@@ -5,6 +5,8 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
 
 import antlr.collections.List;
 import br.unb.leilas.api.domain.entities.base.BaseEntity;
@@ -14,11 +16,12 @@ import br.unb.leilas.api.domain.entities.base.BaseEntity;
 @DiscriminatorValue(value = "S")
 
 public class Servico extends BaseEntity{
-  private String nome;
   private String descricao;
   private double valor;
   private ArrayList<String> imagens = new ArrayList();
   private double nota;
+  @Column(unique = true)
+  private String nome;
 
   public String getNome() {
     return this.nome;

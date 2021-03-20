@@ -15,15 +15,25 @@ public class ServicoService {
     this.repository = repository;
   }
 
-  public Iterable<Servico> findAll() {  
+  public Iterable<Servico> findAll() { // retorna todos os servicos cadastrados
     return this.repository.findAll(); // método findAll do CrudRepository
   }
 
-  public Servico findById(Integer id) {
+  public Servico findById(Integer id) { // retorna um servico específico
     if (id != null) {
       Optional<Servico> opt = this.repository.findById(id);
       if (opt.isPresent())
         return opt.get();
+    }
+    return new Servico();
+  }
+
+  public Servico saveService(Servico servico) { // endpoint post do serviço
+    if (servico.getNome() != null) {
+      List<Servico> listName = this.repository.findByNome(servico.getNome());
+      if (listName.isEmpty()) {
+        return this.repository.save(servico);
+      }
     }
     return new Servico();
   }
