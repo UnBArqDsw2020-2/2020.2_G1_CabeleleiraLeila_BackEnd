@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ServicoRepository extends CrudRepository<Servico, Integer> { // tem acesso a métodos pro CRUD
   List<Servico> findByNome(String nome); 
+  // void deleteByName(String nome); 
 }

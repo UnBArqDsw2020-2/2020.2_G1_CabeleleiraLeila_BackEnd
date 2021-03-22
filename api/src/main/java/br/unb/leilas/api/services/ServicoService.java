@@ -1,12 +1,7 @@
 package br.unb.leilas.api.services;
 import br.unb.leilas.api.domain.entities.Servico;
 import br.unb.leilas.api.repositories.ServicoRepository;
-import io.swagger.models.Response;
-
-import org.springframework.boot.web.error.ErrorAttributeOptions;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,11 +15,11 @@ public class ServicoService {
     this.repository = repository;
   }
 
-  public Iterable<Servico> findAll() { // retorna todos os servicos cadastrados
+  public Iterable<Servico> findAllServices() { // retorna todos os servicos cadastrados
     return this.repository.findAll(); // método findAll do CrudRepository
   }
 
-  public Servico findById(Integer id) { // retorna um servico específico
+  public Servico findServiceById(Integer id) { // retorna um servico específico
     if (id != null) {
       Optional<Servico> opt = this.repository.findById(id);
       if (opt.isPresent())
@@ -43,7 +38,7 @@ public class ServicoService {
     return new Servico();
   }
 
-  public Servico updateService(Servico servico) {
+  public Servico updateService(Servico servico) { // endpoint update do serviço (put)
     if(servico.getNome() != null) {
       List<Servico> listServico = this.repository.findByNome(servico.getNome());
       // System.out.println(listServico.);
@@ -61,5 +56,19 @@ public class ServicoService {
     }
     return new Servico();
   }
+
+  public void deleteServiceById(Integer id) {
+    this.repository.deleteById(id);
+  }
+
+  public void deleteAll() {
+    this.repository.deleteAll();
+  }
+
+  // public void deleteServiceByName(String nome) {
+  //   this.repository.deleteByName(nome);
+  // }
+
+  
 
 }

@@ -6,6 +6,7 @@ import br.unb.leilas.api.services.ServicoService;
 import br.unb.leilas.api.domain.entities.Servico;
 
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,26 +24,44 @@ public class ServicoResource {
     this.servico = servico;  
   }
 
-  @GetMapping() // faz um get na raiz
-  public Iterable<Servico> get() {  
-    return this.servico.findAll();  
-  }
-
-  @GetMapping("{id}") // espera um id na requisição
-  public Servico get(@PathVariable Integer id) {
-    return this.servico.findById(id);
-  }
-
+  // CREATE
   @PostMapping()
   public Servico post(@RequestBody Servico servico) { // espera um body com dados de um servico
     return this.servico.saveService(servico);
   }
 
+  // READ
+  @GetMapping() 
+  public Iterable<Servico> get() {  
+    return this.servico.findAllServices();  
+  }
+
+  @GetMapping("{id}") // espera um id como parâmetro
+  public Servico get(@PathVariable Integer id) {
+    return this.servico.findServiceById(id);
+  }
+
+  // UPDATE
   @PutMapping("/update")
   public Servico put(@RequestBody Servico servico) {
     // System.out.println(servico.getNome());
     return this.servico.updateService(servico);
   }
 
+  // DELETE
+  @DeleteMapping("/delete/{id}")
+  public void delete(@PathVariable Integer id) {
+    this.servico.deleteServiceById(id);
+  }
+
+  @DeleteMapping("/delete/all")
+  public void delete() {
+    this.servico.deleteAll();
+  }
+
+  // @DeleteMapping("/delete/{name}")
+  // public void delete(@PathVariable String name) {
+  //   this.servico.deleteServiceByName(name);
+  // }
 
 }
