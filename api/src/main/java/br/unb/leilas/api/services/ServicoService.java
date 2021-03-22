@@ -1,8 +1,13 @@
 package br.unb.leilas.api.services;
 import br.unb.leilas.api.domain.entities.Servico;
 import br.unb.leilas.api.repositories.ServicoRepository;
+import io.swagger.models.Response;
 
+import org.springframework.boot.web.error.ErrorAttributeOptions;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -33,6 +38,25 @@ public class ServicoService {
       List<Servico> listName = this.repository.findByNome(servico.getNome());
       if (listName.isEmpty()) {
         return this.repository.save(servico);
+      }
+    }
+    return new Servico();
+  }
+
+  public Servico updateService(Servico servico) {
+    if(servico.getNome() != null) {
+      List<Servico> listServico = this.repository.findByNome(servico.getNome());
+      // System.out.println(listServico.);
+      if (!listServico.isEmpty()) {
+        Optional<Servico> optServico = listServico.stream().findFirst();
+          optServico.get().setDescricao(servico.getDescricao()); // substituindo os atributos de um serviço salvo por atributos passados no body
+          optServico.get().setImagens(servico.getImagens());
+          optServico.get().setNota(servico.getNota());
+          optServico.get().setValor(servico.getValor());
+
+          return this.repository.save(optServico.get()); // salvando as alterações no banco 
+      } else {
+        System.out.println("404");
       }
     }
     return new Servico();

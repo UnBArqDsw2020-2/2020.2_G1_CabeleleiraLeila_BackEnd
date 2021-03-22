@@ -7,9 +7,11 @@ import br.unb.leilas.api.domain.entities.Servico;
 
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController // @controller + @ResponseBody
 @RequestMapping("/servico") // localhost:8080/api/servico
@@ -33,7 +35,14 @@ public class ServicoResource {
 
   @PostMapping()
   public Servico post(@RequestBody Servico servico) { // espera um body com dados de um servico
-      return this.servico.saveService(servico);
+    return this.servico.saveService(servico);
   }
+
+  @PutMapping("/update")
+  public Servico put(@RequestBody Servico servico) {
+    // System.out.println(servico.getNome());
+    return this.servico.updateService(servico);
+  }
+
 
 }

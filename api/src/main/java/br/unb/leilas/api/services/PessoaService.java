@@ -22,7 +22,6 @@ public class PessoaService {
     }
 
     public Pessoa save(Pessoa pessoa) {
-
         if (pessoa.getCpf() != null) {
             List<Pessoa> list = this.repository.findByCpf(pessoa.getCpf());
             if (list.isEmpty()) {

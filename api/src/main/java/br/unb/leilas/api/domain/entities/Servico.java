@@ -60,5 +60,4 @@ public class Servico extends BaseEntity{
     this.nota = nota;
   }
   
-  
 }
