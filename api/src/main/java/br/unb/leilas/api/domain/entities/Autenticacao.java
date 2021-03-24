@@ -10,34 +10,37 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import br.unb.leilas.api.domain.entities.base.BaseEntity;
 
-
 @Entity
-@Table(name="autenticacao")
-public class Autenticacao extends BaseEntity implements Serializable{
+@Table(name = "autenticacao")
+public class Autenticacao extends BaseEntity implements Serializable {
     
     private static final long serialVersionUID = 1L;
     private String login;
     private String senha;
     private String email;
 
- 
     @JsonIgnore
     @ManyToMany
-    @JoinTable(
-        name = "autenticacao_permissao",
-        joinColumns = {@JoinColumn(name = "autenticacao_id", referencedColumnName = "id")},
-        inverseJoinColumns = {@JoinColumn(name = "permissao_descricao")}) 
+    @JoinTable(name = "autenticacao_permissao", joinColumns = {
+            @JoinColumn(name = "autenticacao_id", referencedColumnName = "id") }, inverseJoinColumns = {
+                    @JoinColumn(name = "permissao_descricao") })
     private Set<Permissao> permissoes = new HashSet<>();
+
+    @OneToOne(mappedBy = "autenticacao")
+    public Pessoa pessoa;
 
     public String getLogin() {
         return login;
     }
+
     public void setLogin(String login) {
         this.login = login;
     }
+
     public String getSenha() {
         return senha;
     }
+
     public void setSenha(String senha) {
         this.senha = senha;
     }
