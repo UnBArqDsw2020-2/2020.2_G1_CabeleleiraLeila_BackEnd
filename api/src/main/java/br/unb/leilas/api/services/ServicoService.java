@@ -45,7 +45,7 @@ public class ServicoService {
       if (!listServico.isEmpty()) {
         Optional<Servico> optServico = listServico.stream().findFirst();
           optServico.get().setDescricao(servico.getDescricao()); // substituindo os atributos de um serviço salvo por atributos passados no body
-          optServico.get().setImagens(servico.getImagens());
+          optServico.get().setImagem(servico.getImagem());
           optServico.get().setNota(servico.getNota());
           optServico.get().setValor(servico.getValor());
 
