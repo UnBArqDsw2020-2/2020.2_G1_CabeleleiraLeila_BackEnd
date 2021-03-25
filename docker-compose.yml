@@ -1,0 +1,13 @@
+version: '3.4'
+
+services: 
+  api:
+    image: api-cabeleleira-leila
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports: 
+      - 8080:8080
+    volumes: 
+      - ./api/.m2:/root/.m2
+      - ./api:/data

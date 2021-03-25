@@ -1,14 +1,12 @@
 package br.unb.leilas.api.domain.entities;
-import java.util.ArrayList;
+
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Column;
-import javax.persistence.DiscriminatorColumn;
 
-import antlr.collections.List;
 import br.unb.leilas.api.domain.entities.base.BaseEntity;
 
 @Entity
@@ -18,7 +16,7 @@ import br.unb.leilas.api.domain.entities.base.BaseEntity;
 public class Servico extends BaseEntity{
   private String descricao;
   private double valor;
-  private ArrayList<String> imagens = new ArrayList();
+  private String imagem;
   private double nota;
   @Column(unique = true)
   private String nome;
@@ -41,17 +39,11 @@ public class Servico extends BaseEntity{
   public void setValor(double valor) {
     this.valor = valor;
   }
-  public ArrayList<String> getImagens() {
-    return this.imagens;
+  public String getImagem() {
+    return this.imagem;
   }
-  public String getOneImage(int key) {
-    return this.imagens.get(key);
-  }
-  public void setOneImage(int key, String imagem) {
-    this.imagens.add(key, imagem);
-  }
-  public void setImagens(ArrayList<String> imagens) {
-    this.imagens = imagens;
+  public void setImagem(String imagem) {
+    this.imagem = imagem;
   }
   public double getNota() {
     return this.nota;
