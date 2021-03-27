@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController // @controller + @ResponseBody
-@RequestMapping("/servico") // localhost:8080/api/servico
+@RequestMapping("/servicos") // localhost:8080/api/servicos
 @CrossOrigin(origins = "*", maxAge = 3600)
 public class ServicoResource {
   private final ServicoService servico;
@@ -42,26 +42,15 @@ public class ServicoResource {
   }
 
   // UPDATE
-  @PutMapping("/update")
+  @PutMapping()
   public Servico put(@RequestBody Servico servico) {
-    // System.out.println(servico.getNome());
     return this.servico.updateService(servico);
   }
 
   // DELETE
-  @DeleteMapping("/delete/{id}")
+  @DeleteMapping("{id}")
   public void delete(@PathVariable Integer id) {
     this.servico.deleteServiceById(id);
   }
-
-  @DeleteMapping("/delete/all")
-  public void delete() {
-    this.servico.deleteAll();
-  }
-
-  // @DeleteMapping("/delete/{name}")
-  // public void delete(@PathVariable String name) {
-  // this.servico.deleteServiceByName(name);
-  // }
 
 }
