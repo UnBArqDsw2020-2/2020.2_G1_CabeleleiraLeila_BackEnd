@@ -2,6 +2,7 @@ package br.unb.leilas.api.domain.entities;
 
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.*;
@@ -13,21 +14,17 @@ import br.unb.leilas.api.domain.entities.base.BaseEntity;
 @Entity
 @Table(name = "autenticacao")
 public class Autenticacao extends BaseEntity implements Serializable {
-    
+
     private static final long serialVersionUID = 1L;
     private String login;
     private String senha;
     private String email;
 
-    @JsonIgnore
-    @ManyToMany
-    @JoinTable(name = "autenticacao_permissao", joinColumns = {
-            @JoinColumn(name = "autenticacao_id", referencedColumnName = "id") }, inverseJoinColumns = {
-                    @JoinColumn(name = "permissao_descricao") })
-    private Set<Permissao> permissoes = new HashSet<>();
-
     @OneToOne(mappedBy = "autenticacao")
     public Pessoa pessoa;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<RolePermissao> roles;
 
     public String getLogin() {
         return login;
@@ -44,11 +41,29 @@ public class Autenticacao extends BaseEntity implements Serializable {
     public void setSenha(String senha) {
         this.senha = senha;
     }
+
     public String getEmail() {
         return email;
     }
+
     public void setEmail(String email) {
         this.email = email;
-    }   
+    }
+
+    public Pessoa getPessoa() {
+        return pessoa;
+    }
+
+    public void setPessoa(Pessoa pessoa) {
+        this.pessoa = pessoa;
+    }
+
+    public List<RolePermissao> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<RolePermissao> roles) {
+        this.roles = roles;
+    }
 
 }

@@ -23,12 +23,12 @@ import br.unb.leilas.api.domain.entities.base.BaseEntity;
 public class Pessoa extends BaseEntity {
 
     private String nome;
-    private LocalDate nascimento;
-    private String telefone;
-    private String rg;
-    private String rgEmissor;
-    @Column(unique = true)
-    private String cpf;
+    // private LocalDate nascimento;
+    // private String telefone;
+    // private String rg;
+    // private String rgEmissor;
+    // @Column(unique = true)
+    // private String cpf;
 
     @Column(insertable = false, updatable = false)
     private String tipo;
@@ -47,46 +47,6 @@ public class Pessoa extends BaseEntity {
 
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    public LocalDate getNascimento() {
-        return nascimento;
-    }
-
-    public void setNascimento(LocalDate nascimento) {
-        this.nascimento = nascimento;
-    }
-
-    public String getTelefone() {
-        return telefone;
-    }
-
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
-    }
-
-    public String getRg() {
-        return rg;
-    }
-
-    public void setRg(String rg) {
-        this.rg = rg;
-    }
-
-    public String getRgEmissor() {
-        return rgEmissor;
-    }
-
-    public void setRgEmissor(String rgEmissor) {
-        this.rgEmissor = rgEmissor;
-    }
-
-    public String getCpf() {
-        return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
     }
 
     public String getTipo() {
