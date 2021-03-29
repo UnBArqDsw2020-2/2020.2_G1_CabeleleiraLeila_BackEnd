@@ -12,4 +12,11 @@
 
 ## Swagger
 
+#Usando o docker e docker-compose:
+
+linux: 
+
+```console
+docker-compose up --build
+```
 Acesso http://localhost:8080/api/swagger-ui/
