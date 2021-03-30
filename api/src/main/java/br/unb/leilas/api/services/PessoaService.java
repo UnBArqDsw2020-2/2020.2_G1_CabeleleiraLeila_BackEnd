@@ -3,6 +3,7 @@ package br.unb.leilas.api.services;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.unb.leilas.api.domain.entities.Pessoa;
@@ -37,6 +38,10 @@ public class PessoaService {
         //     }
         // }
         // return new Pessoa();
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        String passwordEncoded = bCryptPasswordEncoder.encode(pessoa.getAutenticacao().getSenha());
+        pessoa.getAutenticacao().setSenha(passwordEncoded);
+
         return this.repository.save(pessoa);
 
     }
