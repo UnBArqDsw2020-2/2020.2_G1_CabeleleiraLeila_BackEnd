@@ -48,4 +48,9 @@ public class PessoaResource {
         this.service.deleteById(id);
     }
 
+    @PostMapping("/login")
+    public Pessoa getByLogin(@RequestBody String login){
+        return this.service.getByLogin(login);
+    }
+
 }

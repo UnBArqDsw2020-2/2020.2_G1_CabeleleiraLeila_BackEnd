@@ -67,4 +67,13 @@ public class PessoaService {
         return this.repository.saveAll(list);
     }
 
+    public Pessoa getByLogin(String login) {
+         Optional<Pessoa> opt = this.repository.findByAutenticacao_login(login);
+
+         if(opt.isPresent()){
+             return opt.get();
+         }
+         return new Pessoa();
+    }
+
 }

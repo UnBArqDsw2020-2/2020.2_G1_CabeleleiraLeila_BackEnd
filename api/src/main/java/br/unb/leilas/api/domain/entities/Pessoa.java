@@ -13,6 +13,8 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import br.unb.leilas.api.domain.entities.base.BaseEntity;
 
 @Entity
@@ -37,7 +39,7 @@ public class Pessoa extends BaseEntity {
     // @JsonIgnore ignora ao ser passado como json nas requisições mas permite
     // persistir
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "autenticacao_id", referencedColumnName = "id")
     private Autenticacao autenticacao;
 

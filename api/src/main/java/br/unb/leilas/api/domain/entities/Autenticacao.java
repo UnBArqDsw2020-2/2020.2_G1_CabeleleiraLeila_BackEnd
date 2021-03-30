@@ -1,9 +1,8 @@
 package br.unb.leilas.api.domain.entities;
 
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+
 
 import javax.persistence.*;
 
@@ -16,11 +15,14 @@ import br.unb.leilas.api.domain.entities.base.BaseEntity;
 public class Autenticacao extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    @Column(unique = true)
     private String login;
     private String senha;
     private String email;
 
     @OneToOne(mappedBy = "autenticacao")
+    @JsonIgnore
     public Pessoa pessoa;
 
     @ElementCollection(fetch = FetchType.EAGER)
