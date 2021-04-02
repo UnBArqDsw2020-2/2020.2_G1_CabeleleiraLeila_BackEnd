@@ -146,8 +146,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(HttpSecurity httpSecurity) throws Exception {
 
-    httpSecurity.csrf().disable()
-
+    httpSecurity.cors().and().csrf().disable()
         .authorizeRequests().antMatchers("/authenticate", "/user").permitAll().antMatchers("/users/signin").permitAll()//
         .antMatchers("/users/signup").permitAll()//
         .antMatchers("/h2-console/**/**").permitAll().antMatchers("/swagger-ui/**").permitAll()

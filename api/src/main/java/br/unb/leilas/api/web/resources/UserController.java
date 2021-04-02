@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.unb.leilas.api.domain.entities.User;
+import br.unb.leilas.api.domain.entities.dto.PessoaDTO;
 import br.unb.leilas.api.repositories.UserRepository;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.Map;
-
 
 @RestController
 @RequestMapping("/user")
@@ -32,20 +32,26 @@ public class UserController {
     }
 
     @PostMapping()
-    public Boolean create(@RequestBody Map<String, String> body) throws NoSuchAlgorithmException {
-        String username = body.get("username");
+    public Boolean create(@RequestBody PessoaDTO dto) throws NoSuchAlgorithmException {
+        String username = dto.getUsername();
         if (repository.existsByUsername(username)) {
-
-            throw new RuntimeException("Username already existed");
-
+            throw new RuntimeException("Nome de usuário já utilizado");
+        }
+        if (!dto.getPassword1().equals(dto.getPassword2())) {
+            throw new RuntimeException("Senhas não são iguais");
         }
 
-        String password = body.get("password");
+        String password = dto.getPassword1();
         String encodedPassword = new BCryptPasswordEncoder().encode(password);
         // String hashedPassword = hashData.get_SHA_512_SecurePassword(password);
-        User user = new User();
-        user.setUsername(username);
-        user.setPassword(encodedPassword);
+
+        User user = User
+            .builder()
+            .username(username)
+            .password(encodedPassword)
+            .build();
+
+            
         repository.save(user);
         return true;
     }
