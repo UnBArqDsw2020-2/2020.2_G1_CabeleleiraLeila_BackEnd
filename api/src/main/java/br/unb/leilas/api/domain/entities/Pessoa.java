@@ -1,7 +1,8 @@
 package br.unb.leilas.api.domain.entities;
 
+import br.unb.leilas.api.domain.entities.base.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.LocalDate;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
@@ -13,58 +14,58 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import br.unb.leilas.api.domain.entities.base.BaseEntity;
-
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn(name = "tipo", length = 2, discriminatorType = DiscriminatorType.STRING)
+@DiscriminatorColumn(
+  name = "tipo",
+  length = 2,
+  discriminatorType = DiscriminatorType.STRING
+)
 @DiscriminatorValue("P")
-
 public class Pessoa extends BaseEntity {
 
-    private String nome;
-    // private LocalDate nascimento;
-    // private String telefone;
-    // private String rg;
-    // private String rgEmissor;
-    // @Column(unique = true)
-    // private String cpf;
+  private String nome;
 
-    @Column(insertable = false, updatable = false)
-    private String tipo;
-    // @Transient ignora ao salvar e é retornado nas requisições
+  // private LocalDate nascimento;
+  // private String telefone;
+  // private String rg;
+  // private String rgEmissor;
+  // @Column(unique = true)
+  // private String cpf;
 
-    // @JsonIgnore ignora ao ser passado como json nas requisições mas permite
-    // persistir
+  @Column(insertable = false, updatable = false)
+  private String tipo;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "autenticacao_id", referencedColumnName = "id")
-    private Autenticacao autenticacao;
+  // @Transient ignora ao salvar e é retornado nas requisições
 
-    public String getNome() {
-        return nome;
-    }
+  // @JsonIgnore ignora ao ser passado como json nas requisições mas permite
+  // persistir
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+  @OneToOne(cascade = CascadeType.PERSIST)
+  @JoinColumn(name = "autenticacao_id", referencedColumnName = "id")
+  private Autenticacao autenticacao;
 
-    public String getTipo() {
-        return tipo;
-    }
+  public String getNome() {
+    return nome;
+  }
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
+  public void setNome(String nome) {
+    this.nome = nome;
+  }
 
-    public Autenticacao getAutenticacao() {
-        return autenticacao;
-    }
+  public String getTipo() {
+    return tipo;
+  }
 
-    public void setAutenticacao(Autenticacao autenticacao) {
-        this.autenticacao = autenticacao;
-    }
+  public void setTipo(String tipo) {
+    this.tipo = tipo;
+  }
 
+  public Autenticacao getAutenticacao() {
+    return autenticacao;
+  }
+
+  public void setAutenticacao(Autenticacao autenticacao) {
+    this.autenticacao = autenticacao;
+  }
 }

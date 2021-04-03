@@ -1,71 +1,67 @@
 package br.unb.leilas.api.domain.entities;
 
+import br.unb.leilas.api.domain.entities.base.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.List;
-
-
 import javax.persistence.*;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import br.unb.leilas.api.domain.entities.base.BaseEntity;
 
 @Entity
 @Table(name = "autenticacao")
 public class Autenticacao extends BaseEntity implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    @Column(unique = true)
-    private String login;
-    private String senha;
-    private String email;
+  @Column(unique = true)
+  private String login;
 
-    @OneToOne(mappedBy = "autenticacao")
-    @JsonIgnore
-    public Pessoa pessoa;
+  private String senha;
+  private String email;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    private List<RolePermissao> roles;
+  @OneToOne(mappedBy = "autenticacao")
+  @JsonIgnore
+  public Pessoa pessoa;
 
-    public String getLogin() {
-        return login;
-    }
+  @ElementCollection(fetch = FetchType.EAGER)
+  private List<RolePermissao> roles;
 
-    public void setLogin(String login) {
-        this.login = login;
-    }
+  public String getLogin() {
+    return login;
+  }
 
-    public String getSenha() {
-        return senha;
-    }
+  public void setLogin(String login) {
+    this.login = login;
+  }
 
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
+  public String getSenha() {
+    return senha;
+  }
 
-    public String getEmail() {
-        return email;
-    }
+  public void setSenha(String senha) {
+    this.senha = senha;
+  }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+  public String getEmail() {
+    return email;
+  }
 
-    public Pessoa getPessoa() {
-        return pessoa;
-    }
+  public void setEmail(String email) {
+    this.email = email;
+  }
 
-    public void setPessoa(Pessoa pessoa) {
-        this.pessoa = pessoa;
-    }
+  public Pessoa getPessoa() {
+    return pessoa;
+  }
 
-    public List<RolePermissao> getRoles() {
-        return roles;
-    }
+  public void setPessoa(Pessoa pessoa) {
+    this.pessoa = pessoa;
+  }
 
-    public void setRoles(List<RolePermissao> roles) {
-        this.roles = roles;
-    }
+  public List<RolePermissao> getRoles() {
+    return roles;
+  }
 
+  public void setRoles(List<RolePermissao> roles) {
+    this.roles = roles;
+  }
 }

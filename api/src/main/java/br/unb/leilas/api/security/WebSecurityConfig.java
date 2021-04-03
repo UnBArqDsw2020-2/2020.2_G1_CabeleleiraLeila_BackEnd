@@ -1,4 +1,6 @@
 package br.unb.leilas.api.security;
+
+import br.unb.leilas.api.services.JwtUserDetailsService;
 // import org.springframework.beans.factory.annotation.Autowired;
 
 // import org.springframework.context.annotation.Bean;
@@ -102,9 +104,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
 import br.unb.leilas.api.services.JwtUserDetailsService;
-
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -120,14 +120,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   private JwtRequestFilter jwtRequestFilter;
 
   @Autowired
-  public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-
-    auth.userDetailsService(jwtUserDetailsService).passwordEncoder(passwordEncoder());
-
+  public void configureGlobal(AuthenticationManagerBuilder auth)
+    throws Exception {
+    auth
+      .userDetailsService(jwtUserDetailsService)
+      .passwordEncoder(passwordEncoder());
   }
 
   @Bean
-  public JwtAuthenticationEntryPoint jwtAuthenticationEntryPointBean() throws Exception {
+  public JwtAuthenticationEntryPoint jwtAuthenticationEntryPointBean()
+    throws Exception {
     return new JwtAuthenticationEntryPoint();
   }
 
@@ -140,42 +142,59 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   @Override
   public AuthenticationManager authenticationManagerBean() throws Exception {
     return super.authenticationManagerBean();
-
   }
 
   @Override
   protected void configure(HttpSecurity httpSecurity) throws Exception {
+    httpSecurity
+      .cors()
+      .and()
+      .csrf()
+      .disable()
+      .authorizeRequests()
+      .antMatchers("/authenticate", "/user")
+      .permitAll()
+      .antMatchers("/users/signin")
+      .permitAll() //
+      .antMatchers("/users/signup")
+      .permitAll() //
+      .antMatchers("/h2-console/**/**")
+      .permitAll()
+      .antMatchers("/swagger-ui/**")
+      .permitAll()
+      .antMatchers("/v2/api-docs/")
+      .permitAll()
+      .anyRequest()
+      .authenticated()
+      .and()
+      .exceptionHandling()
+      .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+      .and()
+      .sessionManagement()
+      .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-    httpSecurity.cors().and().csrf().disable()
-        .authorizeRequests().antMatchers("/authenticate", "/user").permitAll().antMatchers("/users/signin").permitAll()//
-        .antMatchers("/users/signup").permitAll()//
-        .antMatchers("/h2-console/**/**").permitAll().antMatchers("/swagger-ui/**").permitAll()
-        .antMatchers("/v2/api-docs/").permitAll()
-
-        .anyRequest().authenticated().and().
-
-        exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
-
-        .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
-    httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
-
+    httpSecurity.addFilterBefore(
+      jwtRequestFilter,
+      UsernamePasswordAuthenticationFilter.class
+    );
   }
 
   @Override
   public void configure(WebSecurity web) throws Exception {
     // Allow swagger to be accessed without authentication
-    web.ignoring().antMatchers("/v2/api-docs")//
-        .antMatchers("/swagger-resources/**")//
-        .antMatchers("/swagger-ui.html")//
-        .antMatchers("/swagger-ui/index.html").antMatchers("/configuration/**")//
-        .antMatchers("/webjars/**")//
-        .antMatchers("/public")
-
-        // Un-secure H2 Database (for testing purposes, H2 console shouldn't be
-        // unprotected in production)
-        .and().ignoring().antMatchers("/h2-console/**/**");
-    ;
+    web
+      .ignoring()
+      .antMatchers("/v2/api-docs") //
+      .antMatchers("/swagger-resources/**") //
+      .antMatchers("/swagger-ui.html") //
+      .antMatchers("/swagger-ui/index.html")
+      .antMatchers("/configuration/**") //
+      .antMatchers("/webjars/**") //
+      .antMatchers("/public")
+      // Un-secure H2 Database (for testing purposes, H2 console shouldn't be
+      // unprotected in production)
+      .and()
+      .ignoring()
+      .antMatchers("/h2-console/**/**");
   }
-
 }
