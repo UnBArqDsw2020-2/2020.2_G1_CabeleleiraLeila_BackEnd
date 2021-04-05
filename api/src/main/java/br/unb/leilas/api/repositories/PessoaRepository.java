@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PessoaRepository extends CrudRepository<Pessoa, Integer> {
-  // List<Pessoa> findByCpf(String cpf);
 
   Optional<Pessoa> findByAutenticacao_login(String login);
+  List<Pessoa> findByCpf(String cpf);
 }

@@ -4,6 +4,8 @@ import br.unb.leilas.api.domain.entities.base.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.*;
 
 @Entity
@@ -24,6 +26,17 @@ public class Autenticacao extends BaseEntity implements Serializable {
 
   @ElementCollection(fetch = FetchType.EAGER)
   private List<RolePermissao> roles;
+
+  @JsonIgnore
+  @ManyToMany
+  @JoinTable(
+    name = "autenticacao_permissao",
+    joinColumns = {
+      @JoinColumn(name = "autenticacao_id", referencedColumnName = "id"),
+    },
+    inverseJoinColumns = { @JoinColumn(name = "permissao_descricao") }
+  )
+  private Set<Permissao> permissoes = new HashSet<>();
 
   public String getLogin() {
     return login;

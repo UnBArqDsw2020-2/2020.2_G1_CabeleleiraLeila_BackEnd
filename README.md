@@ -13,3 +13,14 @@
 ## Swagger
 
 Acesso http://localhost:8080/api/swagger-ui/
+
+## Prettier-Java
+Instalação 
+  ```
+  npm install -g prettier prettier-plugin-java
+  ```
+
+Execução
+  ```
+  prettier --write "**/*.java"
+  ```

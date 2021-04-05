@@ -1,8 +1,9 @@
 package br.unb.leilas.api.domain.entities;
 import java.io.Serializable;
 import javax.persistence.Entity;
-import javax.persistence.Table;
 import br.unb.leilas.api.domain.entities.base.BaseEntity;
+import java.io.Serializable;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "permissao")
