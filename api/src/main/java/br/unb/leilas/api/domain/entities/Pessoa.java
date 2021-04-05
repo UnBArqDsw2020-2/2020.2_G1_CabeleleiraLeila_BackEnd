@@ -20,16 +20,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn(
-  name = "tipo",
-  length = 2,
-  discriminatorType = DiscriminatorType.STRING
-)
+@Inheritance(strategy =  InheritanceType.JOINED)
+@DiscriminatorColumn(name = "tipo", length = 2, discriminatorType = DiscriminatorType.STRING)
 @DiscriminatorValue("P")
-public class Pessoa extends BaseEntity {
-
-  private String nome;
 @Table(name = "pessoa")
 
 public class Pessoa extends BaseEntity{
@@ -66,9 +59,6 @@ public class Pessoa extends BaseEntity{
   // @Column(unique = true)
   // private String cpf;
 
-  @Column(insertable = false, updatable = false)
-  private String tipo;
-
   // @Transient ignora ao salvar e é retornado nas requisições
 
   // @JsonIgnore ignora ao ser passado como json nas requisições mas permite
@@ -78,19 +68,11 @@ public class Pessoa extends BaseEntity{
   @JoinColumn(name = "autenticacao_id", referencedColumnName = "id")
   private Autenticacao autenticacao;
 
-  public String getNome() {
-    return nome;
-  }
-
-  public void setNome(String nome) {
-    this.nome = nome;
-  }
-
-  public String getTipo() {
+  public String getTipo() {  
     return tipo;
   }
 
-  public void setTipo(String tipo) {
+  public void setTipo(String tipo) { // atributo tipo é realmente inalterável?
     this.tipo = tipo;
   }
 
