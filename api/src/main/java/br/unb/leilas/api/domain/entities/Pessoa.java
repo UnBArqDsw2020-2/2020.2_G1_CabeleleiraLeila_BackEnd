@@ -1,26 +1,31 @@
 package br.unb.leilas.api.domain.entities;
 
+import br.unb.leilas.api.domain.entities.base.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.LocalDate;
-
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.DiscriminatorColumn;
-import javax.persistence.DiscriminatorType;
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 
-
-import br.unb.leilas.api.domain.entities.base.BaseEntity;
-
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.DiscriminatorType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Inheritance(strategy =  InheritanceType.JOINED)
 @DiscriminatorColumn(name = "tipo", length = 2, discriminatorType = DiscriminatorType.STRING)
 @DiscriminatorValue("P")
+@Table(name = "pessoa")
 
-public class Pessoa extends BaseEntity {
-
+public class Pessoa extends BaseEntity{
     private String nome;
     private LocalDate nascimento;
     private String telefone;
@@ -28,13 +33,8 @@ public class Pessoa extends BaseEntity {
     private String rgEmissor;
     @Column(unique = true)
     private String cpf;
-
-    @Column(insertable=false, updatable=false)
+    @Column(insertable=false, updatable=false) // atributo tipo é realmente inalterável?
     private String tipo;
-    // @Transient ignora ao salvar e é retornado nas requisições
-
-    // @JsonIgnore ignora ao ser passado como json nas requisições mas permite
-    // persistir
 
     public String getNome() {
         return nome;
@@ -52,44 +52,35 @@ public class Pessoa extends BaseEntity {
         this.nascimento = nascimento;
     }
 
-    public String getTelefone() {
-        return telefone;
-    }
+  // private LocalDate nascimento;
+  // private String telefone;
+  // private String rg;
+  // private String rgEmissor;
+  // @Column(unique = true)
+  // private String cpf;
 
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
-    }
+  // @Transient ignora ao salvar e é retornado nas requisições
 
-    public String getRg() {
-        return rg;
-    }
+  // @JsonIgnore ignora ao ser passado como json nas requisições mas permite
+  // persistir
 
-    public void setRg(String rg) {
-        this.rg = rg;
-    }
+  @OneToOne(cascade = CascadeType.PERSIST)
+  @JoinColumn(name = "autenticacao_id", referencedColumnName = "id")
+  private Autenticacao autenticacao;
 
-    public String getRgEmissor() {
-        return rgEmissor;
-    }
+  public String getTipo() {  
+    return tipo;
+  }
 
-    public void setRgEmissor(String rgEmissor) {
-        this.rgEmissor = rgEmissor;
-    }
+  public void setTipo(String tipo) { // atributo tipo é realmente inalterável?
+    this.tipo = tipo;
+  }
 
-    public String getCpf() {
-        return cpf;
-    }
+  public Autenticacao getAutenticacao() {
+    return autenticacao;
+  }
 
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
-
-    public String getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
-
+  public void setAutenticacao(Autenticacao autenticacao) {
+    this.autenticacao = autenticacao;
+  }
 }

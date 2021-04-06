@@ -12,11 +12,23 @@
 
 ## Swagger
 
-#Usando o docker e docker-compose:
+Acesso http://localhost:8080/api/swagger-ui/
+
+# Usando o docker e docker-compose:
 
 linux: 
 
 ```console
 docker-compose up --build
 ```
-Acesso http://localhost:8080/api/swagger-ui/
+
+## Prettier-Java
+Instalação 
+  ```
+  npm install -g prettier prettier-plugin-java
+  ```
+
+Execução
+  ```
+  prettier --write "**/*.java"
+  ```

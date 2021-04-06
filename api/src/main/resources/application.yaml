@@ -11,3 +11,6 @@ spring:
 server:
   servlet:
     context-path: /api
+
+jwt:
+  secret: 84ab455e552048c99f4997a97e6576a4
