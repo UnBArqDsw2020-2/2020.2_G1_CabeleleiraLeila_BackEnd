@@ -1,11 +1,6 @@
 package br.unb.leilas.api.web.resources;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,13 +12,14 @@ import br.unb.leilas.api.domain.entities.dto.PessoaDTO;
 import br.unb.leilas.api.repositories.UserRepository;
 
 import java.security.NoSuchAlgorithmException;
-import java.util.Map;
-
 @RestController
 @RequestMapping("/user")
 public class UserController {
 
     final private UserRepository repository;
+
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     // private HashData hashData = new HashData();
 
@@ -42,7 +38,7 @@ public class UserController {
         }
 
         String password = dto.getPassword1();
-        String encodedPassword = new BCryptPasswordEncoder().encode(password);
+        String encodedPassword = passwordEncoder.encode(password);
         // String hashedPassword = hashData.get_SHA_512_SecurePassword(password);
 
         User user = User
