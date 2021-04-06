@@ -73,4 +73,8 @@ public class PessoaService {
     return new Pessoa();
   }
 
+  public void deleteById(Integer id) {
+    this.repository.deleteById(id);
+  }
+
 }
