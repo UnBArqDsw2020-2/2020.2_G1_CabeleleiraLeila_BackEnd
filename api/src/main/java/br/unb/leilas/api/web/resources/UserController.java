@@ -1,31 +1,31 @@
 package br.unb.leilas.api.web.resources;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import br.unb.leilas.api.domain.entities.User;
+import br.unb.leilas.api.domain.entities.dto.PessoaDTO;
+import br.unb.leilas.api.repositories.UserRepository;
+
+import java.security.NoSuchAlgorithmException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.unb.leilas.api.domain.entities.User;
-import br.unb.leilas.api.domain.entities.dto.PessoaDTO;
-import br.unb.leilas.api.repositories.UserRepository;
-
-import java.security.NoSuchAlgorithmException;
 @RestController
 @RequestMapping("/user")
 public class UserController {
 
-    final private UserRepository repository;
+  private final UserRepository repository;
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
     // private HashData hashData = new HashData();
 
-    public UserController(UserRepository repository) {
-        this.repository = repository;
-    }
+  public UserController(UserRepository repository) {
+    this.repository = repository;
+  }
 
     @PostMapping()
     public Boolean create(@RequestBody PessoaDTO dto) throws NoSuchAlgorithmException {
@@ -51,5 +51,4 @@ public class UserController {
         repository.save(user);
         return true;
     }
-
 }
