@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import br.unb.leilas.api.domain.entities.User;
 import br.unb.leilas.api.domain.entities.dto.PessoaDTO;
 import br.unb.leilas.api.repositories.UserRepository;
+import br.unb.leilas.api.services.validator.ClientProcess;
 
 import java.security.NoSuchAlgorithmException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -18,37 +19,25 @@ public class UserController {
 
   private final UserRepository repository;
 
-    @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
-
-    // private HashData hashData = new HashData();
+  @Autowired
+  private BCryptPasswordEncoder passwordEncoder;
 
   public UserController(UserRepository repository) {
     this.repository = repository;
   }
 
-    @PostMapping()
-    public Boolean create(@RequestBody PessoaDTO dto) throws NoSuchAlgorithmException {
-        String username = dto.getUsername();
-        if (repository.existsByUsername(username)) {
-            throw new RuntimeException("Nome de usuário já utilizado");
-        }
-        if (!dto.getPassword1().equals(dto.getPassword2())) {
-            throw new RuntimeException("Senhas não são iguais");
-        }
+  @PostMapping()
+  public Boolean create(@RequestBody PessoaDTO dto) throws NoSuchAlgorithmException {
 
-        String password = dto.getPassword1();
-        String encodedPassword = passwordEncoder.encode(password);
-        // String hashedPassword = hashData.get_SHA_512_SecurePassword(password);
+    new ClientProcess().validate(dto);
 
-        User user = User
-            .builder()
-            .username(username)
-            .password(encodedPassword)
-            .build();
-
-            
-        repository.save(user);
-        return true;
+    if (this.repository.existsByUsername(dto.getUsername())) {
+      throw new RuntimeException("Nome de usuário já utilizado");
     }
+
+    User user = User.builder().username(dto.getUsername()).password(passwordEncoder.encode(dto.getPassword1())).build();
+
+    repository.save(user);
+    return true;
+  }
 }

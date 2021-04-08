@@ -26,20 +26,6 @@ public class PessoaService {
   }
 
   public Pessoa save(Pessoa pessoa) {
-    // if (pessoa.getCpf() != null) {
-    // List<Pessoa> list = this.repository.findByCpf(pessoa.getCpf());
-    // if (list.isEmpty()) {
-    // return this.repository.save(pessoa);
-    // } else {
-    // Optional<Pessoa> opt = list.stream().findFirst();
-    // //atualização de dados
-    // opt.get().setNome(pessoa.getNome());
-
-    // //salvando o dado atualizado
-    // return repository.save(opt.get());
-    // }
-    // }
-    // return new Pessoa();
     BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
     String passwordEncoded = bCryptPasswordEncoder.encode(pessoa.getAutenticacao().getSenha());
     pessoa.getAutenticacao().setSenha(passwordEncoded);
