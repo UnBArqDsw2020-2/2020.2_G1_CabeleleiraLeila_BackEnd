@@ -158,6 +158,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
       .permitAll() //
       .antMatchers("/users/signup")
       .permitAll() //
+      .antMatchers("/pessoa/**")
+      .permitAll() //
       .antMatchers("/h2-console/**/**")
       .permitAll()
       .antMatchers("/swagger-ui/**")

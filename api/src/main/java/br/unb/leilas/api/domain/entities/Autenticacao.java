@@ -16,7 +16,6 @@ public class Autenticacao extends BaseEntity implements Serializable {
 
   @Column(unique = true)
   private String login;
-
   private String senha;
   private String email;
 

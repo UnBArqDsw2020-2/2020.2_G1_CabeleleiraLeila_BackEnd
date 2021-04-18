@@ -1,7 +1,10 @@
 package br.unb.leilas.api.web.resources;
 
 import br.unb.leilas.api.domain.entities.Pessoa;
+import br.unb.leilas.api.domain.entities.dto.PessoaDTO;
 import br.unb.leilas.api.services.PessoaService;
+
+import java.util.List;
 import java.util.Optional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,22 +25,22 @@ public class PessoaResource {
   }
 
   @GetMapping
-  public Iterable<Pessoa> get() {
+  public List<PessoaDTO> get() {
     return this.service.findAll();
   }
 
   @GetMapping("{id}")
-  public Pessoa get(@PathVariable Integer id) {
+  public PessoaDTO get(@PathVariable Integer id) {
     return this.service.findById(id);
   }
 
   @PostMapping
-  public Pessoa post(@RequestBody Pessoa pessoa) {
+  public PessoaDTO post(@RequestBody PessoaDTO pessoa) {
     return this.service.save(pessoa);
   }
 
   @PostMapping("/all")
-  public Iterable<Pessoa> post(@RequestBody Iterable<Pessoa> list) {
+  public List<PessoaDTO> post(@RequestBody List<PessoaDTO> list) {
     return this.service.saveAll(list);
   }
 
@@ -47,7 +50,7 @@ public class PessoaResource {
   }
 
   @PostMapping("/login")
-  public Pessoa getByLogin(@RequestBody String login) {
+  public PessoaDTO getByLogin(@RequestBody String login) {
     return this.service.getByLogin(login);
   }
 }

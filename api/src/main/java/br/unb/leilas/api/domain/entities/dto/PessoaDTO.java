@@ -1,8 +1,13 @@
 package br.unb.leilas.api.domain.entities.dto;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
-public class PessoaDTO {
+import br.unb.leilas.api.domain.entities.Autenticacao;
+import br.unb.leilas.api.domain.entities.Pessoa;
+
+public class PessoaDTO extends BaseDTO<Pessoa>{
 
   private String username;
   private String password1;
@@ -14,9 +19,19 @@ public class PessoaDTO {
   private String telefone;
   private String rg;
   private String cpf;
+  
+  private Autenticacao autenticacao;
 
   public String getUsername() {
     return username;
+  }
+
+  public Autenticacao getAutenticacao() {
+    return autenticacao;
+  }
+
+  public void setAutenticacao(Autenticacao autenticacao) {
+    this.autenticacao = autenticacao;
   }
 
   public void setUsername(String username) {
@@ -85,5 +100,38 @@ public class PessoaDTO {
 
   public void setCpf(String cpf) {
     this.cpf = cpf;
+  }
+
+  public Pessoa paraEntidade() {
+
+    Pessoa pessoa = new Pessoa();
+
+    pessoa.setAutenticacao(autenticacao);
+    pessoa.setNome(nome);
+    pessoa.setId(getId());
+    pessoa.setNascimento(nascimento);
+
+    return  pessoa;
+  }
+
+  public static PessoaDTO paraDto(Pessoa pessoa){
+    PessoaDTO dto = new PessoaDTO();
+    dto.setId(pessoa.getId());
+    dto.setNome(pessoa.getNome());
+    dto.setNascimento(pessoa.getNascimento());
+
+    Autenticacao autenticacao = new Autenticacao();
+    autenticacao.setRoles(pessoa.getAutenticacao().getRoles());
+    autenticacao.setLogin(pessoa.getAutenticacao().getLogin());
+    dto.setAutenticacao(autenticacao);
+    return dto;
+  }
+
+  public static List<PessoaDTO> paraDto(List<Pessoa> lista){
+      List<PessoaDTO> dtos = new ArrayList<>();
+      lista
+        .stream()
+        .forEach(pessoa-> dtos.add(PessoaDTO.paraDto(pessoa)));
+      return dtos;
   }
 }

@@ -35,7 +35,11 @@ public class UserController {
       throw new RuntimeException("Nome de usuário já utilizado");
     }
 
-    User user = User.builder().username(dto.getUsername()).password(passwordEncoder.encode(dto.getPassword1())).build();
+    User user = User
+      .builder()
+      .username(dto.getUsername())
+      .password(passwordEncoder.encode(dto.getPassword1()))
+      .build();
 
     repository.save(user);
     return true;

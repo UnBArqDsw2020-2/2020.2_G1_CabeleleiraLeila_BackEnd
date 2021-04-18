@@ -35,6 +35,10 @@ public class Pessoa extends BaseEntity{
     private String cpf;
     @Column(insertable=false, updatable=false) // atributo tipo é realmente inalterável?
     private String tipo;
+  
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "autenticacao_id", referencedColumnName = "id")
+    private Autenticacao autenticacao;
 
     public String getNome() {
         return nome;
@@ -63,10 +67,6 @@ public class Pessoa extends BaseEntity{
 
   // @JsonIgnore ignora ao ser passado como json nas requisições mas permite
   // persistir
-
-  @OneToOne(cascade = CascadeType.PERSIST)
-  @JoinColumn(name = "autenticacao_id", referencedColumnName = "id")
-  private Autenticacao autenticacao;
 
   public String getTipo() {  
     return tipo;

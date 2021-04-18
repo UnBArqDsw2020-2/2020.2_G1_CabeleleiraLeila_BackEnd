@@ -1,10 +1,17 @@
 package br.unb.leilas.api.services;
 
+import br.unb.leilas.api.domain.entities.Autenticacao;
 import br.unb.leilas.api.domain.entities.Pessoa;
+import br.unb.leilas.api.domain.entities.RolePermissao;
+import br.unb.leilas.api.domain.entities.dto.PessoaDTO;
+import br.unb.leilas.api.repositories.AutenticacaoRepository;
 import br.unb.leilas.api.repositories.PessoaRepository;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -14,53 +21,67 @@ public class PessoaService {
 
   private final PessoaRepository repository;
 
+  private final AutenticacaoRepository autenticacaoRepository;
+
   @Autowired
   private BCryptPasswordEncoder passwordEncoder;
 
-  public PessoaService(PessoaRepository repository) {
-    this.repository = repository;
-  }
 
   public long count() {
     return this.repository.count();
   }
 
-  public Pessoa save(Pessoa pessoa) {
+  public PessoaDTO save(PessoaDTO dto) {
+    Pessoa pessoa = dto.paraEntidade();
     BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
     String passwordEncoded = bCryptPasswordEncoder.encode(pessoa.getAutenticacao().getSenha());
     pessoa.getAutenticacao().setSenha(passwordEncoded);
 
-    return this.repository.save(pessoa);
+    List<RolePermissao> roles = new ArrayList<>();
+    roles.add(RolePermissao.ROLE_CLIENTE);
+
+    pessoa.getAutenticacao().setRoles(roles);
+    pessoa.getAutenticacao().setSenha(passwordEncoded);
+    
+
+    return PessoaDTO.paraDto(this.repository.save(pessoa));
   }
 
-  public Iterable<Pessoa> findAll() {
-    return this.repository.findAll();
+  public List<PessoaDTO> findAll() {
+    return PessoaDTO.paraDto(this.repository.findAll());
   }
 
-  public Pessoa findById(Integer id) {
+  public PessoaDTO findById(Integer id) {
     if (id != null) {
       Optional<Pessoa> opt = this.repository.findById(id);
       if (opt.isPresent())
-        return opt.get();
+        return PessoaDTO.paraDto(opt.get());
     }
-    return new Pessoa();
+    return PessoaDTO.paraDto(new Pessoa());
   }
 
-  public Iterable<Pessoa> saveAll(Iterable<Pessoa> list) {
-    return this.repository.saveAll(list);
+  public List<PessoaDTO> saveAll(List<PessoaDTO> dtos) {
+    List<Pessoa> pessoas = new ArrayList<>();
+    dtos.stream().forEach( dto -> pessoas.add(dto.paraEntidade()));
+    return PessoaDTO.paraDto(this.repository.saveAll(pessoas));
   }
 
-  public Pessoa getByLogin(String login) {
+  public PessoaDTO getByLogin(String login) {
     Optional<Pessoa> opt = this.repository.findByAutenticacao_login(login);
 
     if (opt.isPresent()) {
-      return opt.get();
+      return PessoaDTO.paraDto(opt.get());
     }
-    return new Pessoa();
+    return PessoaDTO.paraDto(new Pessoa());
   }
 
   public void deleteById(Integer id) {
     this.repository.deleteById(id);
+  }
+
+  public PessoaService(PessoaRepository repository, AutenticacaoRepository autenticacaoRepository) {
+    this.repository = repository;
+    this.autenticacaoRepository = autenticacaoRepository;
   }
 
 }
