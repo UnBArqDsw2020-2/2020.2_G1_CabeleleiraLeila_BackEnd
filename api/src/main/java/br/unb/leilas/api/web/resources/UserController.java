@@ -1,6 +1,8 @@
 package br.unb.leilas.api.web.resources;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
+import br.unb.leilas.api.domain.entities.Autenticacao;
 import br.unb.leilas.api.domain.entities.User;
 import br.unb.leilas.api.domain.entities.dto.PessoaDTO;
 import br.unb.leilas.api.repositories.UserRepository;
@@ -37,7 +39,8 @@ public class UserController {
     if (this.repository.existsByUsername(dto.getUsername())) {
       throw new RuntimeException("Nome de usuário já utilizado");
     }
-
+    dto.setAutenticacao(new Autenticacao());
+    dto.getAutenticacao().setLogin(dto.getUsername());
     dto.getAutenticacao().setSenha(passwordEncoder.encode(dto.getPassword1()));
     dto.setPassword1("");
     dto.setPassword2("");
