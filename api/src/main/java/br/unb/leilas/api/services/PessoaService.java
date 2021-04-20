@@ -18,32 +18,25 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class PessoaService {
-
+  
   private final PessoaRepository repository;
-
-  private final AutenticacaoRepository autenticacaoRepository;
-
-  @Autowired
-  private BCryptPasswordEncoder passwordEncoder;
-
-
+  
+  public PessoaService(PessoaRepository repository) {
+    this.repository = repository;
+  }
+  
   public long count() {
     return this.repository.count();
   }
 
   public PessoaDTO save(PessoaDTO dto) {
     Pessoa pessoa = dto.paraEntidade();
-    BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-    String passwordEncoded = bCryptPasswordEncoder.encode(pessoa.getAutenticacao().getSenha());
-    pessoa.getAutenticacao().setSenha(passwordEncoded);
 
     List<RolePermissao> roles = new ArrayList<>();
     roles.add(RolePermissao.ROLE_CLIENTE);
 
-    pessoa.getAutenticacao().setRoles(roles);
-    pessoa.getAutenticacao().setSenha(passwordEncoded);
-    
-
+    pessoa.getAutenticacao().setRoles(roles);   
+    pessoa.getAutenticacao().setLogin(dto.getUsername());
     return PessoaDTO.paraDto(this.repository.save(pessoa));
   }
 
@@ -79,9 +72,5 @@ public class PessoaService {
     this.repository.deleteById(id);
   }
 
-  public PessoaService(PessoaRepository repository, AutenticacaoRepository autenticacaoRepository) {
-    this.repository = repository;
-    this.autenticacaoRepository = autenticacaoRepository;
-  }
 
 }

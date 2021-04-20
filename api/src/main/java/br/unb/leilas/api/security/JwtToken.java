@@ -8,9 +8,15 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+
+import br.unb.leilas.api.domain.entities.dto.PessoaDTO;
+import br.unb.leilas.api.repositories.PessoaRepository;
+import br.unb.leilas.api.services.PessoaService;
 
 @Component
 public class JwtToken implements Serializable {
@@ -18,6 +24,8 @@ public class JwtToken implements Serializable {
   private static final long serialVersionUID = 1L;
 
   public static final long JWT_TOKEN_VALIDITY = 60 * 60;
+  @Autowired
+  private PessoaService pessoaService;
 
   @Value("${jwt.secret}")
   private String secret;
@@ -51,6 +59,9 @@ public class JwtToken implements Serializable {
 
   public String generateToken(UserDetails userDetails) {
     Map<String, Object> claims = new HashMap<>();
+    PessoaDTO dto = pessoaService.getByLogin(userDetails.getUsername());
+    claims.put("id", dto.getId());
+    claims.put("roles", dto.getAutenticacao().getRoles());
 
     return doGenerateToken(claims, userDetails.getUsername());
   }

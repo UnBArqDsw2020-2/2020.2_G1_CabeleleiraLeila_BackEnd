@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import br.unb.leilas.api.domain.entities.User;
 import br.unb.leilas.api.domain.entities.dto.PessoaDTO;
 import br.unb.leilas.api.repositories.UserRepository;
+import br.unb.leilas.api.services.PessoaService;
 import br.unb.leilas.api.services.validator.ClientProcess;
 
 import java.security.NoSuchAlgorithmException;
@@ -18,16 +19,18 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
   private final UserRepository repository;
+  private final PessoaService pessoaService;
 
   @Autowired
   private BCryptPasswordEncoder passwordEncoder;
-
-  public UserController(UserRepository repository) {
+  
+  public UserController(UserRepository repository, PessoaService pessoaService) {
     this.repository = repository;
+    this.pessoaService = pessoaService;
   }
 
   @PostMapping()
-  public Boolean create(@RequestBody PessoaDTO dto) throws NoSuchAlgorithmException {
+  public PessoaDTO create(@RequestBody PessoaDTO dto) throws NoSuchAlgorithmException {
 
     new ClientProcess().validate(dto);
 
@@ -35,13 +38,11 @@ public class UserController {
       throw new RuntimeException("Nome de usuário já utilizado");
     }
 
-    User user = User
-      .builder()
-      .username(dto.getUsername())
-      .password(passwordEncoder.encode(dto.getPassword1()))
-      .build();
+    dto.getAutenticacao().setSenha(passwordEncoder.encode(dto.getPassword1()));
+    dto.setPassword1("");
+    dto.setPassword2("");
 
-    repository.save(user);
-    return true;
+    return  this.pessoaService.save(dto);  
   }
+
 }
