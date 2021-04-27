@@ -103,6 +103,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import br.unb.leilas.api.services.JwtUserDetailsService;
 @Configuration
@@ -159,6 +160,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
       .antMatchers("/users/signup")
       .permitAll() //
       .antMatchers("/pessoa/**")
+      .permitAll() //
+      .antMatchers(HttpMethod.GET, "/servicos")
       .permitAll() //
       .antMatchers("/h2-console/**/**")
       .permitAll()
