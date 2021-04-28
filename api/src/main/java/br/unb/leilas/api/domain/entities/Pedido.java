@@ -1,25 +1,51 @@
 package br.unb.leilas.api.domain.entities;
 
 import br.unb.leilas.api.domain.entities.base.BaseEntity;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.*;
-import java.util.Date;
 
 @Entity
 @Table(name = "pedido")
 public class Pedido extends BaseEntity implements Serializable {
 
-  @Column
+  @Column(nullable = false)
   private Integer valor;
+
+  @Column(nullable = false)
   private Date data;
+
+  @Column(nullable = false)
   private boolean confirmado;
 
+  @JsonIgnoreProperties(
+    {
+      "autenticacao", "interesses", "nascimento", "nome", "observacoes", "tipo",
+    }
+  )
   @ManyToOne
-  @JoinColumn(name="cliente_id", nullable=false)
-  public Cliente cliente;
+  @JoinColumn(name = "cliente_id", nullable = false)
+  private Cliente cliente;
+
+  @ManyToMany
+  @JoinTable(
+    name = "pedido_tem_servicos",
+    joinColumns = @JoinColumn(name = "pedido_id"),
+    inverseJoinColumns = @JoinColumn(name = "servico_id")
+  )
+  private List<Servico> servicos;
+
+  public List<Servico> getServicos() {
+    return this.servicos;
+  }
+
+  public void setServicos(List<Servico> servicos) {
+    this.servicos = servicos;
+  }
 
   public Integer getValor() {
     return valor;
