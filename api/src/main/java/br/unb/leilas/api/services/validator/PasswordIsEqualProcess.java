@@ -1,6 +1,6 @@
 package br.unb.leilas.api.services.validator;
 
-import br.unb.leilas.api.domain.entities.dto.PessoaDTO;
+import br.unb.leilas.api.domain.entities.dto.ClienteDTO;
 
 public class PasswordIsEqualProcess implements SignupProcess {
 
@@ -9,8 +9,8 @@ public class PasswordIsEqualProcess implements SignupProcess {
     }
 
     @Override
-    public void validate(PessoaDTO pessoaDTO) {
-        if (!pessoaDTO.getPassword1().equals(pessoaDTO.getPassword2())) {
+    public void validate(ClienteDTO clienteDTO) {
+        if (!clienteDTO.getPassword1().equals(clienteDTO.getPassword2())) {
             throw new RuntimeException("Senhas não são iguais");
         }
     }

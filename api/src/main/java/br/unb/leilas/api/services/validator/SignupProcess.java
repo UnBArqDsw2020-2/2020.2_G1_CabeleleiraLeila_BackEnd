@@ -1,9 +1,9 @@
 package br.unb.leilas.api.services.validator;
 
-import br.unb.leilas.api.domain.entities.dto.PessoaDTO;
+import br.unb.leilas.api.domain.entities.dto.ClienteDTO;
 
 public interface SignupProcess  {
 
     void next(SignupProcess signupProcessor);
-    void validate(PessoaDTO pessoaDTO);
+    void validate(ClienteDTO clienteDTO);
 }

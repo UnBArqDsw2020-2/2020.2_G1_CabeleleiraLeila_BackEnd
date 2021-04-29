@@ -5,8 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import br.unb.leilas.api.domain.entities.Autenticacao;
 import br.unb.leilas.api.domain.entities.User;
 import br.unb.leilas.api.domain.entities.dto.PessoaDTO;
+import br.unb.leilas.api.domain.entities.dto.ClienteDTO;
 import br.unb.leilas.api.repositories.UserRepository;
-import br.unb.leilas.api.services.PessoaService;
+import br.unb.leilas.api.services.ClienteService;
 import br.unb.leilas.api.services.validator.ClientProcess;
 
 import java.security.NoSuchAlgorithmException;
@@ -21,18 +22,18 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
   private final UserRepository repository;
-  private final PessoaService pessoaService;
+  private final ClienteService clienteService;
 
   @Autowired
   private BCryptPasswordEncoder passwordEncoder;
   
-  public UserController(UserRepository repository, PessoaService pessoaService) {
+  public UserController(UserRepository repository, ClienteService clienteService) {
     this.repository = repository;
-    this.pessoaService = pessoaService;
+    this.clienteService = clienteService;
   }
 
   @PostMapping()
-  public PessoaDTO create(@RequestBody PessoaDTO dto) throws NoSuchAlgorithmException {
+  public ClienteDTO create(@RequestBody ClienteDTO dto) throws NoSuchAlgorithmException {
 
     new ClientProcess().validate(dto);
 
@@ -45,7 +46,7 @@ public class UserController {
     dto.setPassword1("");
     dto.setPassword2("");
 
-    return  this.pessoaService.save(dto);  
+    return  this.clienteService.save(dto);  
   }
 
 }

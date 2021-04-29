@@ -1,6 +1,6 @@
 package br.unb.leilas.api.services.validator;
 
-import br.unb.leilas.api.domain.entities.dto.PessoaDTO;
+import br.unb.leilas.api.domain.entities.dto.ClienteDTO;
 
 public class PasswordIsNotEmptyProcess implements SignupProcess {
 
@@ -13,12 +13,12 @@ public class PasswordIsNotEmptyProcess implements SignupProcess {
     }
 
     @Override
-    public void validate(PessoaDTO pessoaDTO) {
+    public void validate(ClienteDTO clienteDTO) {
 
-        if (pessoaDTO.getPassword1() == null || pessoaDTO.getPassword2() == null) {
+        if (clienteDTO.getPassword1() == null || clienteDTO.getPassword2() == null) {
             throw new RuntimeException("Senha vazia");
         }
-        this.nextProcess.validate(pessoaDTO);
+        this.nextProcess.validate(clienteDTO);
     }
 
 }

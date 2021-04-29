@@ -1,6 +1,6 @@
 package br.unb.leilas.api.services.validator;
 
-import br.unb.leilas.api.domain.entities.dto.PessoaDTO;
+import br.unb.leilas.api.domain.entities.dto.ClienteDTO;
 
 public class UsernameIsNotEmptyProcess implements SignupProcess{
     private SignupProcess nextProcess;
@@ -11,12 +11,12 @@ public class UsernameIsNotEmptyProcess implements SignupProcess{
     }
 
     @Override
-    public void validate(PessoaDTO pessoaDTO) {
+    public void validate(ClienteDTO clienteDTO) {
 
-        if(pessoaDTO.getUsername() == null){
+        if(clienteDTO.getUsername() == null){
             throw new RuntimeException("Nome de usuário ausente");
         }
-        this.nextProcess.validate(pessoaDTO);
+        this.nextProcess.validate(clienteDTO);
     }
 }
 

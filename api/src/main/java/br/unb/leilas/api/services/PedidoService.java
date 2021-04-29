@@ -27,14 +27,14 @@ public class PedidoService {
     return new Pedido();
   }
 
-  public Pedido savePedido(Pedido pedido) { // endpoint post do serviço
+  public Pedido savePedido(Pedido pedido) { // endpoint post do pedido
     return this.repository.save(pedido);
   }
 
-  public Pedido updatePedido(Pedido pedido) { // endpoint update do serviço (put)
+  public Pedido updatePedido(Pedido pedido) { // endpoint update do pedido (put)
     if (pedido.getId() != null) {
       Optional<Pedido> opt = this.repository.findById(pedido.getId());
-      opt.get().setValor(pedido.getValor()); // substituindo os atributos de um serviço salvo por atributos passados no body
+      opt.get().setValor(pedido.getValor()); // substituindo os atributos de um pedido salvo por atributos passados no body
       opt.get().setData(pedido.getData());
       opt.get().setConfirmado(pedido.getConfirmado());
       opt.get().setCliente(pedido.getCliente());

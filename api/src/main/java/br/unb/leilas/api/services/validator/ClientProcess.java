@@ -1,10 +1,10 @@
 package br.unb.leilas.api.services.validator;
 
-import br.unb.leilas.api.domain.entities.dto.PessoaDTO;
+import br.unb.leilas.api.domain.entities.dto.ClienteDTO;
 
 public class ClientProcess {
 
-    public void validate(PessoaDTO pessoaDTO) {
+    public void validate(ClienteDTO clienteDTO) {
         SignupProcess usernameIsNotEmptyProcess = new UsernameIsNotEmptyProcess();
         SignupProcess passwordIsNotEmptyProcess = new PasswordIsNotEmptyProcess();
         SignupProcess passwordIsEqualProcess = new PasswordIsEqualProcess();
@@ -12,7 +12,7 @@ public class ClientProcess {
         usernameIsNotEmptyProcess.next(passwordIsNotEmptyProcess);
         passwordIsNotEmptyProcess.next(passwordIsEqualProcess);
 
-        usernameIsNotEmptyProcess.validate(pessoaDTO);
+        usernameIsNotEmptyProcess.validate(clienteDTO);
 
     }
 
