@@ -6,6 +6,7 @@ import javax.persistence.*;
 
 @Entity
 @DiscriminatorValue(value = "C")
+@PrimaryKeyJoinColumn(name="cliente_id")
 public class Cliente extends Pessoa {
 
   @ElementCollection

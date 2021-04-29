@@ -33,7 +33,7 @@ public class Pedido extends BaseEntity implements Serializable {
 
   @ManyToMany
   @JoinTable(
-    name = "pedido_tem_servicos",
+    name = "pedido_tem_servico",
     joinColumns = @JoinColumn(name = "pedido_id"),
     inverseJoinColumns = @JoinColumn(name = "servico_id")
   )
