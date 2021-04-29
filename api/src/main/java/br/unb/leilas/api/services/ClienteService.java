@@ -45,6 +45,7 @@ public class ClienteService {
     if (cliente.getId() != null) {
       Optional<Cliente> opt = this.repository.findById(cliente.getId());
       opt.get().setInteresses(cliente.getInteresses());
+      opt.get().setObservacoes(cliente.getObservacoes());
       opt.get().setNascimento(cliente.getNascimento());
       opt.get().setNome(cliente.getNome());
       opt.get().setTelefone(cliente.getTelefone());
