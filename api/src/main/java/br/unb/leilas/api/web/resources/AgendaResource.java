@@ -1,11 +1,19 @@
 package br.unb.leilas.api.web.resources;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import br.unb.leilas.api.domain.entities.Agenda;
 import br.unb.leilas.api.services.AgendaService;
@@ -13,18 +21,40 @@ import br.unb.leilas.api.services.AgendaService;
 @RestController // @controller + @ResponseBody
 @RequestMapping("/agenda") // localhost:8080/api/servicos
 @CrossOrigin(origins = "*", maxAge = 3600)
+
 public class AgendaResource {
 
    private AgendaService agendaService;
+   
+   public AgendaResource(AgendaService agendaService) {
+      this.agendaService = agendaService;
+   }
 
    @GetMapping
-   public Map diasEHorarios(String dataInicio, String dataFim, String nomeServico){
+   public Iterable<Agenda> getAll() {
+      return this.agendaService.findAll();
+   }
+
+   @GetMapping("/{dataInicio}/{dataFim}/{nomeServico}")
+   public Iterable<Agenda> diasEHorarios(@PathVariable String dataInicio, @PathVariable String dataFim, @PathVariable String nomeServico) {
+      System.out.println(dataInicio + " " + dataFim + " " + nomeServico);
+
+      List<Agenda> agendas = agendaService.getAgendasPorData(dataInicio, dataFim);
+      System.out.println(agendas);
+
+      // Map<String, String[]> diasEHorarios = agendaService.getDiasEHorarios(agendas, nomeServico);
+
+      // return diasEHorarios;
       
-      Agenda[] agendas = agendaService.getAgendasPorData(dataInicio, dataFim);
+      // ---
 
-      Map<String, String[]> diasEHorarios = agendaService.getDiasEHorarios(agendas, nomeServico);
+      return agendas;
+      // return this.agendaService.getDiasEHorarios(dataInicio, dataFim, nomeServico);
+   }
 
-      return diasEHorarios;
+   @PostMapping
+   public Agenda postAgenda(@RequestBody Agenda agenda) {
+      return this.agendaService.save(agenda);
    }
 }
 
