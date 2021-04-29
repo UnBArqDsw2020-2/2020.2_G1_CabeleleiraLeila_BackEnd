@@ -28,12 +28,12 @@ public class Pedido extends BaseEntity implements Serializable {
     }
   )
   @ManyToOne
-  @JoinColumn(name = "cliente_id", nullable = false)
-  private Cliente cliente;
+  @JoinColumn(name = "pessoa_id", nullable = false)
+  private Pessoa pessoa;
 
   @ManyToMany
   @JoinTable(
-    name = "pedido_tem_servicos",
+    name = "pedido_servico",
     joinColumns = @JoinColumn(name = "pedido_id"),
     inverseJoinColumns = @JoinColumn(name = "servico_id")
   )
@@ -75,11 +75,11 @@ public class Pedido extends BaseEntity implements Serializable {
     this.confirmado = confirmado;
   }
 
-  public Cliente getCliente() {
-    return this.cliente;
+  public Pessoa getPessoa() {
+    return pessoa;
   }
 
-  public void setCliente(Cliente cliente) {
-    this.cliente = cliente;
+  public void setPessoa(Pessoa pessoa) {
+    this.pessoa = pessoa;
   }
 }

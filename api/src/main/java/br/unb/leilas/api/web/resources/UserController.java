@@ -3,9 +3,8 @@ package br.unb.leilas.api.web.resources;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import br.unb.leilas.api.domain.entities.Autenticacao;
-import br.unb.leilas.api.domain.entities.User;
 import br.unb.leilas.api.domain.entities.dto.PessoaDTO;
-import br.unb.leilas.api.repositories.UserRepository;
+import br.unb.leilas.api.repositories.AutenticacaoRepository;
 import br.unb.leilas.api.services.PessoaService;
 import br.unb.leilas.api.services.validator.ClientProcess;
 
@@ -20,15 +19,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/user")
 public class UserController {
 
-  private final UserRepository repository;
   private final PessoaService pessoaService;
 
+  private final AutenticacaoRepository autenticacaoRepository;
   @Autowired
   private BCryptPasswordEncoder passwordEncoder;
   
-  public UserController(UserRepository repository, PessoaService pessoaService) {
-    this.repository = repository;
+  public UserController(PessoaService pessoaService, AutenticacaoRepository autenticacaoRepository) {
     this.pessoaService = pessoaService;
+    this.autenticacaoRepository = autenticacaoRepository;
   }
 
   @PostMapping()
@@ -36,7 +35,7 @@ public class UserController {
 
     new ClientProcess().validate(dto);
 
-    if (this.repository.existsByUsername(dto.getUsername())) {
+    if (this.autenticacaoRepository.existsByLogin(dto.getUsername())) {
       throw new RuntimeException("Nome de usuário já utilizado");
     }
     dto.setAutenticacao(new Autenticacao());
@@ -47,5 +46,6 @@ public class UserController {
 
     return  this.pessoaService.save(dto);  
   }
+
 
 }

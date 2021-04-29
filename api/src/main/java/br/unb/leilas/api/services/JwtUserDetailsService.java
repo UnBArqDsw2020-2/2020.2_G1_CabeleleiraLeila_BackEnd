@@ -1,10 +1,8 @@
 package br.unb.leilas.api.services;
 
 import br.unb.leilas.api.domain.entities.Pessoa;
-import br.unb.leilas.api.domain.entities.User;
 import br.unb.leilas.api.domain.entities.dto.PessoaDTO;
 import br.unb.leilas.api.repositories.PessoaRepository;
-import br.unb.leilas.api.repositories.UserRepository;
 import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

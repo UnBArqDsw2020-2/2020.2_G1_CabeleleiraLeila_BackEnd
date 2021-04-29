@@ -37,7 +37,7 @@ public class PedidoService {
       opt.get().setValor(pedido.getValor()); // substituindo os atributos de um serviço salvo por atributos passados no body
       opt.get().setData(pedido.getData());
       opt.get().setConfirmado(pedido.getConfirmado());
-      opt.get().setCliente(pedido.getCliente());
+      opt.get().setPessoa(pedido.getPessoa());
       return this.repository.save(opt.get()); // salvando as alterações no banco
     } else {
       System.out.println("404");
