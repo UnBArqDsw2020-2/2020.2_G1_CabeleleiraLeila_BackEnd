@@ -110,6 +110,8 @@ public class ClienteDTO extends BaseDTO<Cliente>{
     cliente.setNome(nome);
     cliente.setId(getId());
     cliente.setNascimento(nascimento);
+    cliente.setTelefone(telefone);
+    cliente.setCpf(cpf);
 
     return cliente;
   }
