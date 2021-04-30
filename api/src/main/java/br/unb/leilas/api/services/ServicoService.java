@@ -35,6 +35,7 @@ public class ServicoService {
     if (servico.getId() != null) {
       Optional<Servico> opt = this.repository.findById(servico.getId());
       opt.get().setNome(servico.getNome()); // substituindo os atributos de um serviço salvo por atributos passados no body
+      opt.get().setData(servico.getData());
       opt.get().setDescricao(servico.getDescricao());
       opt.get().setImagem(servico.getImagem());
       opt.get().setNota(servico.getNota());

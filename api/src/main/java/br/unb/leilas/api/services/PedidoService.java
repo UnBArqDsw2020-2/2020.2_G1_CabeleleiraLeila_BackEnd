@@ -1,10 +1,12 @@
 package br.unb.leilas.api.services;
 
 import br.unb.leilas.api.domain.entities.Pedido;
+import br.unb.leilas.api.domain.entities.Cliente;
 import br.unb.leilas.api.repositories.PedidoRepository;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Service
 public class PedidoService {
@@ -25,6 +27,10 @@ public class PedidoService {
       if (opt.isPresent()) return opt.get();
     }
     return new Pedido();
+  }
+
+  public List<Pedido> findByCliente(Cliente cliente) {
+    return this.repository.findByCliente(cliente);
   }
 
   public Pedido savePedido(Pedido pedido) { // endpoint post do pedido
