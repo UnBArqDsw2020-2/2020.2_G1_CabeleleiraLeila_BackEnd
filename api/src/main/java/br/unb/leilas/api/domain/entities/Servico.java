@@ -6,6 +6,7 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import java.util.Date;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -16,9 +17,18 @@ public class Servico extends BaseEntity {
   private double valor;
   private String imagem;
   private double nota;
+  private Date data;
 
   @Column(unique = true)
   private String nome;
+
+  public Date getData() {
+    return this.data;
+  }
+
+  public void setData(Date data) {
+    this.data = data;
+  }
 
   public String getNome() {
     return this.nome;
