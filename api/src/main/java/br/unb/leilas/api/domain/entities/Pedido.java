@@ -24,11 +24,11 @@ public class Pedido extends BaseEntity implements Serializable {
 
   @JsonIgnoreProperties(
     {
-      "autenticacao", "interesses", "nascimento", "nome", "observacoes", "tipo",
+      "autenticacao", "interesses", "nascimento", "nome", "observacoes", "tipo", "telefone", "rg", "rgEmissor" , "cpf"
     }
   )
   @ManyToOne
-  @JoinColumn(name = "cliente_id", nullable = false)
+  @JoinColumn(name = "cliente", nullable = false)
   private Cliente cliente;
 
   @ManyToMany
