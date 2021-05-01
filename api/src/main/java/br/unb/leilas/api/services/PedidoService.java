@@ -29,8 +29,8 @@ public class PedidoService {
     return new Pedido();
   }
 
-  public List<Pedido> findByCliente(Cliente cliente) {
-    return this.repository.findByCliente(cliente);
+  public List<Pedido> findByClienteId(Integer id) {
+    return this.repository.findByClienteId(id);
   }
 
   public Pedido savePedido(Pedido pedido) { // endpoint post do pedido

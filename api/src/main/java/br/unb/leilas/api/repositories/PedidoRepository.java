@@ -10,5 +10,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PedidoRepository extends CrudRepository<Pedido, Integer> { // tem acesso a métodos pro CRUD
-  List<Pedido> findByCliente(Cliente cliente);
+  List<Pedido> findByClienteId(Integer id);
 }
