@@ -26,12 +26,19 @@ public class AgendaService {
      return this.agendaRepository.findAll();
    }
 
-   public List<Agenda> getAgendasPorData(String dataInicio, String dataFim) {
-      List<Agenda> agenda = this.agendaRepository.findByData(dataInicio);
+   public List<Agenda> getAgendasPorDataServicoId(String data, Integer idServico) {
+      List<Agenda> agenda = this.agendaRepository.findByDataAndServicoId(data, idServico);
       System.out.println(agenda);
 
       return agenda;
    }
+
+   // public List<Agenda> getAgendasPorData(String dataInicio, String dataFim) {
+   //    List<Agenda> agenda = this.agendaRepository.findByData(dataInicio);
+   //    System.out.println(agenda);
+
+   //    return agenda;
+   // }
 
    public Map<String, String[]> getDiasEHorarios(String dataInicio, String dataFim, String nomeServico) throws ParseException {
       // DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");

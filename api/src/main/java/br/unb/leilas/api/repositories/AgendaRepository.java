@@ -9,6 +9,6 @@ import org.springframework.data.repository.CrudRepository;
 @Repository
 public interface AgendaRepository extends CrudRepository<Agenda, Integer> {
    
-   List<Agenda> findByData(String data);
+   List<Agenda> findByDataAndServicoId(String data, Integer id);
    
 }
