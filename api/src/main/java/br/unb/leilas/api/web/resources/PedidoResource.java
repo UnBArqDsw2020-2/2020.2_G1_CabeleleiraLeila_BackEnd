@@ -1,7 +1,6 @@
 package br.unb.leilas.api.web.resources;
 
 import br.unb.leilas.api.domain.entities.Pedido;
-import br.unb.leilas.api.domain.entities.Cliente;
 import br.unb.leilas.api.services.PedidoService;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -42,10 +41,8 @@ public class PedidoResource {
   }
 
   @GetMapping("findByCliente/{id}") // espera um id como parâmetro
-  public List<Pedido> getPedidoByClienteID(@PathVariable Integer id) {
-    Cliente cliente = new Cliente();
-    cliente.setId(id);
-    return this.pedido.findByCliente(cliente);
+  public List<Pedido> getPedidoByClienteId(@PathVariable Integer id) {
+    return this.pedido.findByClienteId(id);
   }
 
   // UPDATE
