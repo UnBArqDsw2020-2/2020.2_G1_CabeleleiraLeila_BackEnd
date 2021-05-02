@@ -1,58 +1,76 @@
 package br.unb.leilas.api.services;
 
+import br.unb.leilas.api.domain.entities.Autenticacao;
 import br.unb.leilas.api.domain.entities.Pessoa;
+import br.unb.leilas.api.domain.entities.RolePermissao;
+import br.unb.leilas.api.domain.entities.dto.PessoaDTO;
+import br.unb.leilas.api.repositories.AutenticacaoRepository;
 import br.unb.leilas.api.repositories.PessoaRepository;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class PessoaService {
-
+  
   private final PessoaRepository repository;
-
+  
   public PessoaService(PessoaRepository repository) {
     this.repository = repository;
   }
-
+  
   public long count() {
     return this.repository.count();
   }
 
-  public Pessoa save(Pessoa pessoa) {
-    if (pessoa.getCpf() != null) {
-      List<Pessoa> list = this.repository.findByCpf(pessoa.getCpf());
-      if (list.isEmpty()) {
-        return this.repository.save(pessoa);
-      } else {
-        Optional<Pessoa> opt = list.stream().findFirst();
-        //atualização de dados
-        opt.get().setNome(pessoa.getNome());
+  public PessoaDTO save(PessoaDTO dto) {
+    Pessoa pessoa = dto.paraEntidade();
 
-        //salvando o dado atualizado
-        return repository.save(opt.get());
-      }
-    }
-    return new Pessoa();
+    List<RolePermissao> roles = new ArrayList<>();
+    roles.add(RolePermissao.ROLE_CLIENTE);
+
+    pessoa.getAutenticacao().setRoles(roles);   
+    pessoa.getAutenticacao().setLogin(dto.getUsername());
+    return PessoaDTO.paraDto(this.repository.save(pessoa));
   }
 
-  public Iterable<Pessoa> findAll() {
-    return this.repository.findAll();
+  public List<PessoaDTO> findAll() {
+    return PessoaDTO.paraDto(this.repository.findAll());
   }
 
-  public Pessoa findById(Integer id) {
+  public PessoaDTO findById(Integer id) {
     if (id != null) {
       Optional<Pessoa> opt = this.repository.findById(id);
-      if (opt.isPresent()) return opt.get();
+      if (opt.isPresent())
+        return PessoaDTO.paraDto(opt.get());
     }
-    return new Pessoa();
+    return PessoaDTO.paraDto(new Pessoa());
+  }
+
+  public List<PessoaDTO> saveAll(List<PessoaDTO> dtos) {
+    List<Pessoa> pessoas = new ArrayList<>();
+    dtos.stream().forEach( dto -> pessoas.add(dto.paraEntidade()));
+    return PessoaDTO.paraDto(this.repository.saveAll(pessoas));
+  }
+
+  public PessoaDTO getByLogin(String login) {
+    Optional<Pessoa> opt = this.repository.findByAutenticacao_login(login);
+
+    if (opt.isPresent()) {
+      return PessoaDTO.paraDto(opt.get());
+    }
+    return PessoaDTO.paraDto(new Pessoa());
   }
 
   public void deleteById(Integer id) {
     this.repository.deleteById(id);
   }
 
-  public Iterable<Pessoa> saveAll(Iterable<Pessoa> list) {
-    return this.repository.saveAll(list);
-  }
+
 }

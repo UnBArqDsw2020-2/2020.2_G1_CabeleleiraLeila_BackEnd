@@ -2,12 +2,11 @@ package br.unb.leilas.api.domain.entities;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
+import javax.persistence.*;
 
 @Entity
 @DiscriminatorValue(value = "C")
+@PrimaryKeyJoinColumn(name="cliente_id")
 public class Cliente extends Pessoa {
 
   @ElementCollection
@@ -15,6 +14,9 @@ public class Cliente extends Pessoa {
 
   @ElementCollection
   private List<String> observacoes = new ArrayList<>();
+
+  @OneToMany(mappedBy = "cliente")
+  private List<Pedido> pedidos;
 
   public List<String> getInteresses() {
     return interesses;

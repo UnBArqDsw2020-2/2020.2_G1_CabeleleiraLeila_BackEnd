@@ -14,6 +14,17 @@
 
 Acesso http://localhost:8080/api/swagger-ui/
 
+## H2
+
+Acesso http://localhost:8080/api/h2-console/
+# Usando o docker e docker-compose:
+
+linux: 
+
+```console
+docker-compose up --build
+```
+
 ## Prettier-Java
 Instalação 
   ```
