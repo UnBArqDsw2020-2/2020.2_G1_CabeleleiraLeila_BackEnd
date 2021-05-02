@@ -3,8 +3,7 @@ package br.unb.leilas.api.domain.entities;
 import br.unb.leilas.api.domain.entities.base.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
-import java.util.Date;
-import java.util.HashSet;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 import javax.persistence.*;
@@ -17,7 +16,7 @@ public class Pedido extends BaseEntity implements Serializable {
   private Integer valor;
 
   @Column(nullable = false)
-  private Date data;
+  private LocalDate data;
 
   @Column(nullable = false)
   private boolean confirmado;
@@ -55,11 +54,11 @@ public class Pedido extends BaseEntity implements Serializable {
     this.valor = valor;
   }
 
-  public Date getData() {
+  public LocalDate getData() {
     return this.data;
   }
 
-  public void setData(Date data) {
+  public void setData(LocalDate data) {
     this.data = data;
   }
 

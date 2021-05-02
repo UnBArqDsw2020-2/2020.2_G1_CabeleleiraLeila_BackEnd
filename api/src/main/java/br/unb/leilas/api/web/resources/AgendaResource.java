@@ -3,6 +3,8 @@ package br.unb.leilas.api.web.resources;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -35,9 +37,10 @@ public class AgendaResource {
       return this.agendaService.findAll();
    }
 
-   @GetMapping("/{data}/{idServico}")
+   @GetMapping("findByDataServicoId/{data}/{idServico}")
    public Iterable<Agenda> findByDataServicoId(@PathVariable String data, @PathVariable Integer idServico) {
-      List<Agenda> agendas = agendaService.getAgendasPorDataServicoId(data, idServico);
+      LocalDate localDate = LocalDate.parse(data);
+      List<Agenda> agendas = agendaService.getAgendasPorDataServicoId(localDate, idServico);
       return agendas;
    }
 

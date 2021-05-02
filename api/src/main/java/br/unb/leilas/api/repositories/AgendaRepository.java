@@ -1,7 +1,8 @@
 package br.unb.leilas.api.repositories;
 
 import br.unb.leilas.api.domain.entities.Agenda;
-import java.util.Date;
+
+import java.time.LocalDate;
 import java.util.List;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.repository.CrudRepository;
@@ -9,6 +10,6 @@ import org.springframework.data.repository.CrudRepository;
 @Repository
 public interface AgendaRepository extends CrudRepository<Agenda, Integer> {
    
-   List<Agenda> findByDataAndServicoId(String data, Integer id);
+   List<Agenda> findByDataAndServicoId(LocalDate data, Integer id);
    
 }

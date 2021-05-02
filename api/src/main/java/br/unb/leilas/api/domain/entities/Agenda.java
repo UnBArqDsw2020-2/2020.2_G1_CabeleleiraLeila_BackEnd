@@ -1,6 +1,8 @@
 package br.unb.leilas.api.domain.entities;
 
 import br.unb.leilas.api.domain.entities.base.BaseEntity;
+
+import java.time.LocalDate;
 import java.util.Date;
 import javax.persistence.*;
 // import br.unb.leilas.api.domain.entities.Pedido;
@@ -23,18 +25,19 @@ import javax.persistence.Table;
 )
 public class Agenda extends BaseEntity {
 
-  private String data;
+  private LocalDate data;
   private Integer hora;
 
   @OneToOne
   @JoinColumn(name = "servico_id")
   private Servico servico;
 
-  public String getData() {
+
+  public LocalDate getData() {
     return this.data;
   }
 
-  public void setData(String data) {
+  public void setData(LocalDate data) {
     this.data = data;
   }
 
