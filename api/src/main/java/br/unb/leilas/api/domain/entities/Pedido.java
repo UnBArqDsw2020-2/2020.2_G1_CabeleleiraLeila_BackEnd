@@ -32,18 +32,18 @@ public class Pedido extends BaseEntity implements Serializable {
 
   @ManyToMany
   @JoinTable(
-    name = "pedido_tem_servico",
+    name = "pedido_tem_agendamento",
     joinColumns = @JoinColumn(name = "pedido_id"),
-    inverseJoinColumns = @JoinColumn(name = "servico_id")
+    inverseJoinColumns = @JoinColumn(name = "agendamento_id")
   )
-  private List<Servico> servicos;
+  private List<Agendamento> agendamentos;
 
-  public List<Servico> getServicos() {
-    return this.servicos;
+  public List<Agendamento> getAgendamentos() {
+    return this.agendamentos;
   }
 
-  public void setServicos(List<Servico> servicos) {
-    this.servicos = servicos;
+  public void setAgendamentos(List<Agendamento> agendamentos) {
+    this.agendamentos = agendamentos;
   }
 
   public Integer getValor() {

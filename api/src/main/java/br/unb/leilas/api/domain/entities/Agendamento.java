@@ -1,37 +1,30 @@
 package br.unb.leilas.api.domain.entities;
 
 import br.unb.leilas.api.domain.entities.base.BaseEntity;
-
 import java.time.LocalDate;
-import java.util.Date;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.*;
-// import br.unb.leilas.api.domain.entities.Pedido;
-
-import javax.persistence.Column;
-import javax.persistence.DiscriminatorColumn;
-import javax.persistence.DiscriminatorType;
 import javax.persistence.DiscriminatorValue;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.Table;
-
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorValue(value = "S")
 @Table(
-  name = "agenda",
+  name = "agendamento",
   uniqueConstraints = { @UniqueConstraint(columnNames = { "data", "hora" }) }
 )
-public class Agenda extends BaseEntity {
+public class Agendamento extends BaseEntity {
 
+  @Column(nullable=false)
   private LocalDate data;
+  @Column(nullable=false)
   private Integer hora;
 
   @OneToOne
   @JoinColumn(name = "servico_id")
   private Servico servico;
-
 
   public LocalDate getData() {
     return this.data;
@@ -56,4 +49,5 @@ public class Agenda extends BaseEntity {
   public void setServico(Servico servico) {
     this.servico = servico;
   }
+
 }
