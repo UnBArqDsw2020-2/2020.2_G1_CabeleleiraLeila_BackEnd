@@ -4,6 +4,7 @@ import br.unb.leilas.api.domain.entities.Agendamento;
 import br.unb.leilas.api.repositories.AgendamentoRepository;
 import java.lang.Iterable;
 import java.util.Optional;
+import java.time.LocalDate;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,7 +16,7 @@ public class AgendamentoService {
     this.repository = repository;
   }
 
-  public Iterable<Agendamento> findAllServices() { // retorna todos os Agendamentos cadastrados
+  public Iterable<Agendamento> findAllAgendamentos() { // retorna todos os Agendamentos cadastrados
     return this.repository.findAll(); // método findAll do CrudRepository
   }
 
@@ -33,6 +34,11 @@ public class AgendamentoService {
 
   public Iterable<Agendamento> saveAgendamentos(Iterable<Agendamento> agendamentos) { // endpoint post do serviço
     return this.repository.saveAll(agendamentos);
+  }
+
+  public Iterable<Agendamento> getAgendamentoPorDataServicoId(LocalDate data, Integer idServico) {
+    Iterable<Agendamento> agendamentos = this.repository.findByDataAndServicoId(data, idServico);
+    return agendamentos;
   }
 
   public Agendamento updateAgendamento(Agendamento agendamento) { // endpoint update do serviço (put)

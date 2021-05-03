@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import java.lang.Iterable;
+import java.time.LocalDate;
 
 @RestController // @controller + @ResponseBody
 @RequestMapping("/agendamentos") // localhost:8080/api/servicos
@@ -38,7 +39,7 @@ public class AgendamentoResource {
   // READ
   @GetMapping
   public Iterable<Agendamento> get() {
-    return this.agendamento.findAllServices();
+    return this.agendamento.findAllAgendamentos();
   }
 
   @GetMapping("{id}") // espera um id como parâmetro
@@ -56,5 +57,12 @@ public class AgendamentoResource {
   @DeleteMapping("{id}")
   public void delete(@PathVariable Integer id) {
     this.agendamento.deleteAgendamentoById(id);
+  }
+
+  @GetMapping("findByDataServicoId/{data}/{idServico}")
+  public Iterable<Agendamento> findByDataServicoId(@PathVariable String data, @PathVariable Integer idServico) {
+     LocalDate localDate = LocalDate.parse(data);
+     Iterable<Agendamento> agendamentos = agendamento.getAgendamentoPorDataServicoId(localDate, idServico);
+     return agendamentos;
   }
 }

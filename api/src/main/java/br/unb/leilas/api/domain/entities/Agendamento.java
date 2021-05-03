@@ -10,7 +10,6 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-
 @Entity
 @Table(
   name = "agendamento",
@@ -18,7 +17,9 @@ import javax.persistence.Table;
 )
 public class Agendamento extends BaseEntity {
 
+  @Column(nullable=false)
   private LocalDate data;
+  @Column(nullable=false)
   private Integer hora;
 
   @OneToOne
