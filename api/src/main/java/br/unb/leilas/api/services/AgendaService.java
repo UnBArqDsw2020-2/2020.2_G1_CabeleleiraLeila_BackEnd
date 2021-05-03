@@ -22,6 +22,10 @@ public class AgendaService {
      return this.agendaRepository.findAll();
    }
 
+   public Iterable<Agenda> saveAgendas(Iterable<Agenda> agendas) { // endpoint post do serviço
+      return this.agendaRepository.saveAll(agendas);
+   }
+
    public List<Agenda> getAgendasPorDataServicoId(LocalDate data, Integer idServico) {
       List<Agenda> agenda = this.agendaRepository.findByDataAndServicoId(data, idServico);
       System.out.println(agenda);

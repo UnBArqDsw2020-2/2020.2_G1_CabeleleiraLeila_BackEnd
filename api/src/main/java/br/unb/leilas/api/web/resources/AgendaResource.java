@@ -48,4 +48,9 @@ public class AgendaResource {
    public Agenda postAgenda(@RequestBody Agenda agenda) {
       return this.agendaService.save(agenda);
    }
+
+   @PostMapping("list")
+   public Iterable<Agenda> postAgendas(@RequestBody Iterable<Agenda> agendas) { // espera um body com dados de um servico
+     return this.agendaService.saveAgendas(agendas);
+   }
 }
