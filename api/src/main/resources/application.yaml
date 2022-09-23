@@ -8,6 +8,11 @@ spring:
         database-platform: org.hibernate.dialect.H2Dialect
         hibernate:
           ddl-auto:  create-drop
+    h2:
+        console:
+          enabled: true
+          settings:
+            web-allow-others: true
 server:
   servlet:
     context-path: /api
